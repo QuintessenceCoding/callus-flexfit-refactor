@@ -1,29 +1,38 @@
-# Known Issues
+## Issue 001 – Schedule Page Infinite Refetch
 
-## Issue 001
+### Status
 
-Title
+Resolved
 
-Schedule page remains in loading state.
+### Symptoms
 
-Status
+The Schedule page remained in a perpetual loading state.
 
-Observed during initial exploration.
+The browser continuously issued requests to `classes.list`.
 
-Reproduction
+### Root Cause
 
-1. Login
-2. Navigate to Schedule
-3. Page remains in loading state indefinitely.
+The query input used:
 
-Investigation
+```ts
+from: new Date().toISOString()
+```
 
-Pending.
+A new timestamp was generated on every render.
 
-Decision
+React Query uses query inputs as part of its cache key, so each render produced a different query key, causing continuous refetching.
 
-Not yet determined whether this is:
-- Existing defect
-- Intentional challenge
-- Frontend issue
-- Backend issue
+### Resolution
+
+Memoize the timestamp so the query key remains stable for the lifetime of the component.
+
+```ts
+const from = useMemo(
+  () => new Date().toISOString(),
+  []
+);
+```
+
+### Lessons Learned
+
+React Query query keys must remain stable across renders. Dynamic values should be memoized unless continuous refetching is intended.
