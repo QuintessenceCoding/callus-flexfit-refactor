@@ -1,92 +1,57 @@
-# AI Context
+# Project Constraints
 
-Read this document before generating code.
+## Objective
 
----
-
-## Goal
-
-Refactor FlexFit Studio into a maintainable codebase while preserving behaviour.
+Refactor the existing FlexFit Studio application while preserving all existing functionality and user-visible behaviour.
 
 ---
 
-## Non-Negotiable Rules
+## Non-Negotiable Constraints
 
-DO NOT
-
-- Change behaviour.
-- Change API responses.
-- Remove business rules.
-- Introduce unnecessary abstractions.
-- Rewrite entire modules.
-
-DO
-
-- Extract duplicated logic.
-- Improve naming.
-- Improve separation of concerns.
-- Keep commits small.
-- Explain architectural decisions.
+- Preserve existing business behaviour.
+- Preserve API contracts unless there is a compelling reason to change them.
+- Preserve database behaviour.
+- Do not introduce breaking changes.
+- Prefer incremental refactoring over large rewrites.
 
 ---
 
-## Business Rules Already Identified
+## Refactoring Principles
 
-Booking
-
-- Cannot book cancelled classes.
-- Cannot book started classes.
-- Active membership required.
-- Sufficient credits required.
-- Unlimited memberships never lose credits.
-- Full classes create waitlist entries.
-- Credits deducted only for confirmed bookings.
-
-Cancellation
-
-- Free cancellation until 12 hours before class.
-- Refund only if eligible.
-- Promote earliest waitlisted member.
-- Deduct promoted member's credits.
-
-Authentication
-
-- Session cookie based.
-- Context resolves authenticated user.
-- Authorization handled through middleware.
+- Follow the Single Responsibility Principle.
+- Eliminate duplicated logic.
+- Keep business rules centralized.
+- Improve readability before optimization.
+- Prefer composition over duplication.
 
 ---
 
-## Current Architecture
+## Code Quality Standards
 
-React
-
-↓
-
-React Query
-
-↓
-
-tRPC
-
-↓
-
-Router
-
-↓
-
-Drizzle
-
-↓
-
-SQLite
+- Keep functions focused.
+- Use descriptive naming.
+- Prefer explicit code over clever code.
+- Maintain TypeScript type safety.
+- Avoid unnecessary abstractions.
 
 ---
 
-## Preferred Refactoring Style
+## Documentation Standards
 
-- Small commits
-- Small functions
-- Single responsibility
-- Clear naming
-- Preserve behaviour
+Every significant architectural decision should be documented.
+
+Every behavioural change should be intentional and recorded.
+
+---
+
+## Testing Philosophy
+
+Existing behaviour should be preserved.
+
+Where practical, new tests should accompany extracted business logic.
+
+---
+
+## Known Objective
+
+The goal is to improve maintainability, readability, and extensibility while ensuring that the application's behaviour remains unchanged.
