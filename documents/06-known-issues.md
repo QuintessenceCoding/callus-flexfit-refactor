@@ -36,3 +36,17 @@ const from = useMemo(
 ### Lessons Learned
 
 React Query query keys must remain stable across renders. Dynamic values should be memoized unless continuous refetching is intended.
+
+
+## Issue 002 – Corporate Attendance Source Not Persisted
+
+Status: Observed, Preserved
+
+Observation:
+The API accepts a source parameter during attendance marking
+(front_desk, kiosk, app) but the value is not stored.
+
+Reason Preserved:
+The challenge requires behavior preservation.
+Changing persistence behavior could alter existing consumers.
+Documented for future investigation.

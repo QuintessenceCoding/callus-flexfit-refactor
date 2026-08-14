@@ -30,7 +30,7 @@ After exploring the application architecture and tracing the core booking flow, 
 - Validation logic is duplicated in several places.
 - Some workflows are difficult to unit test because routing and business logic are intertwined.
 - Documentation was initially absent.
-- Minor frontend issues exist (e.g. unstable Schedule query key).
+- Previously observed frontend issue in Schedule page was resolved by stabilizing the query input.
 
 ---
 
@@ -109,12 +109,12 @@ Goals
 - Improve readability.
 - Keep public API unchanged.
 
-Potential Deliverables
+Completed Deliverables
 
-- BookingService
-- CorporateBookingService
-- Booking validation helpers
-- Smaller procedures
+- BookingService extracted from bookings router
+- CorporateBookingService extracted from corporate bookings router
+- Booking business rules isolated from transport layer
+- Router procedures reduced to orchestration and authorization concerns
 
 ---
 
@@ -130,6 +130,11 @@ Potential Deliverables
 
 - Shared utilities
 - Cleaner procedure implementations
+
+Current Status
+
+Booking-related routers have been cleaned up through service extraction.
+Remaining routers were reviewed and are already relatively small, CRUD-focused, and do not currently justify additional service layers.
 
 ---
 
@@ -157,6 +162,19 @@ Priority areas
 - Credit deduction
 - Authentication
 
+Completed
+
+- Booking creation
+- Waitlist promotion
+- Cancellation
+- Credit deduction
+- Corporate booking credit pool flows
+
+Pending
+
+- Authentication
+- Router-level authorization tests
+
 ---
 
 # Success Criteria
@@ -169,7 +187,7 @@ The refactoring will be considered successful if:
 - Individual functions become smaller.
 - Architectural responsibilities become clearer.
 - New contributors can understand the codebase more quickly.
-
+- Critical booking workflows covered by automated tests.
 ---
 
 # Out of Scope
@@ -210,6 +228,7 @@ Mitigation
 | 10 Aug | Initial refactoring roadmap created | - |
 | 10 Aug | Extract individual booking business logic into BookingService while preserving router contracts | ADR-001 |
 | 11 Aug | Extract corporate booking business logic into CorporateBookingService without shared booking abstractions | ADR-002 |
+| 11 Aug | Added automated business-rule tests for BookingService and CorporateBookingService | ADR-003 |
 
 ---
 # Completion Checklist
@@ -241,8 +260,9 @@ Mitigation
 
 ## Testing
 
-- [ ] Booking workflow
-- [ ] Waitlist workflow
+- [x] Booking workflow
+- [x] Waitlist workflow
+- [x] Corporate booking workflow
 - [ ] Authentication
 - [ ] Schedule
 
@@ -252,3 +272,8 @@ Mitigation
 - [ ] ADRs written
 - [ ] README finalized
 - [ ] Final verification
+
+## Bug Fixes
+
+- [x] Fixed Schedule page query instability
+- [x] Documented behavior-changing fixes
